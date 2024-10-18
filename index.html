@@ -2,186 +2,90 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Seu Currículo </title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<script src="../js/script.js" defer ></script>
+    <title>Seu Currículo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
 <style>
-
-body{
-
-padding:20px;
-background-color: #e8e8e8;
-margin: 20px;
-
+body {
+    padding: 20px;
+    background-color: #f8f9fa;
 }
-
-
-hr {
-
-   width: 100%;
+h1, h2 {
+    text-align: center;
 }
-
-#tr{
-   
-width: 400px;
-
-
+.container {
+    max-width: 600px;
+    margin: auto;
 }
-
+.edit-button {
+    margin-left: 10px;
+}
 </style>
 
 <div class="container"> 
-    
-<h1 id="nome"  </h1>
-    NOME
-    </h1> 
+    <h1 id="nome">Seu Nome Aqui</h1>
+    <button class="btn btn-secondary btn-sm edit-button" onclick="editField('nome', 'Digite seu nome:')">Editar</button>
+    <hr>
 
+    <div id="info">
+        <p id="end">Endereço: Seu Endereço Aqui <button class="btn btn-secondary btn-sm edit-button" onclick="editField('end', 'Digite seu endereço:')">Editar</button></p>
+        <p id="nascimento">Nascimento: Sua Data de Nascimento <button class="btn btn-secondary btn-sm edit-button" onclick="editField('nascimento', 'Digite sua data de nascimento (DD/MM/AAAA):')">Editar</button></p>
+        <p id="civil">Estado Civil: Seu Estado Civil <button class="btn btn-secondary btn-sm edit-button" onclick="editField('civil', 'Digite seu estado civil:')">Editar</button></p>
+        <p id="contato1">Telefone: Seu Telefone <button class="btn btn-secondary btn-sm edit-button" onclick="editField('contato1', 'Digite seu telefone:')">Editar</button></p>
+        <p id="email">E-mail: Seu E-mail <button class="btn btn-secondary btn-sm edit-button" onclick="editField('email', 'Digite seu e-mail:')">Editar</button></p>
+    </div>
 
-<hr>
+    <h2>Objetivo</h2>
+    <p id="objetivo">Seu Objetivo Profissional <button class="btn btn-secondary btn-sm edit-button" onclick="editField('objetivo', 'Digite seu objetivo:')">Editar</button></p>
 
-<table border="0" id="tr">
-    <tr>
-    <td id="end"> ENDEREÇO:  </td> 
-    </tr>
-        <tr>
-            <td id="nascimento"> NASCIMENTO:  </td>
-            </tr>
-              <tr>
-                <td id="civil" > ESTADO CIVIL:  </td>
-                </tr>
-                <tr>
-                    <td id="contato1"> TELEFONE:  </td>
-                    </tr>
-                        <tr>
-                            <td id="email" > EMAIL:  </td>
-                            </tr>
-                              
-                                    
-    </table>
+    <h2>Formação</h2>
+    <p id="forma1">Curso 1 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma1', 'Digite o nome do seu curso:')">Editar</button></p>
+    <p id="forma2">Curso 2 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma2', 'Digite o nome do seu curso:')">Editar</button></p>
+    <p id="forma3">Curso 3 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma3', 'Digite o nome do seu curso:')">Editar</button></p>
+    <p id="forma4">Curso 4 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma4', 'Digite o nome do seu curso:')">Editar</button></p>
 
-<br>
+    <h2>Experiência</h2>
+    <p id="emprego1">Experiência 1 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego1', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
+    <p id="emprego2">Experiência 2 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego2', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
+    <p id="emprego3">Experiência 3 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego3', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
 
-<h2> OBJETIVO </h2>
-<hr>
+    <h2>Qualificações</h2>
+    <p id="qualificacoes">Estou em busca de uma nova oportunidade. <button class="btn btn-secondary btn-sm edit-button" onclick="editField('qualificacoes', 'Digite suas qualificações:')">Editar</button></p>
 
-<p id="objetivo"> PROFESSOR </p>
-
-
-<h2> FORMAÇÃO </h2>
-<hr>
-<p id="forma1"> CURSO 1 </p>
-<p id="forma2"> CURSO 2 </p>
-<p id="forma3"> CURSO 3 </p>
-<p id="forma4"> CURSO 4 </p>
-
-<h2> EXPERIÊNCIA </h2>
-<hr>
-<p id="emprego1"> EMPRESA, CARGO, PERÍODO </p>
-<p id="emprego2"> EMPRESA, CARGO, PERÍODO </p>
-<p id="emprego3"> EMPRESA, CARGO, PERÍODO </p>
-
-<h2> QUALIFICAÇÕES </h2>
-<hr>
-<p> Estou em busca de uma nova oportunidade
-     
-    </p>
-<p>
-    Tenho facilidade de interação e comunicação.
-</p>
-<p> Facilidade de aprender novas funções</p>
+    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+    <button class="btn btn-primary" onclick="printCurriculum()">Salvar PDF/Imprimir</button>
+    <p>Se for imprimir, pode ser útil limitar a impressão à primeira folha.</p>
 </div>
 
+<script>
+function editField(id, promptText) {
+    const field = document.getElementById(id);
+    const newText = window.prompt(promptText, field.innerText);
+    if (newText) {
+        field.innerText = newText;
+    }
+}
 
-<script defer>
-
-    window.alert("Clique nos nomes para alterá-los, \nCaso não possua QUATRO ou MENOS cursos click e aperte espaço depois Enter ");  
-   
-
-    var nome = window.document.getElementById('nome')
-   // nome.innerText =  window.prompt("Digite seu nome: " + nome)
-    nome.addEventListener("click", function(){
-    nome.innerText = window.prompt("Digite o nome:  " );
+function printCurriculum() {
+    // Esconde todos os botões de editar
+    const editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(button => {
+        button.style.display = 'none';
     });
-   
-   var end = window.document.getElementById('end')
-   end.addEventListener("click", function(){
-   end.innerText = "ENDEREÇO: " +  window.prompt("Digite o endereço:  " );
-   });
-
-   var nasc = window.document.getElementById('nascimento')
-   nasc.addEventListener("click", function(){
-   nasc.innerText = "NASCIMENTO: " +  window.prompt("Digite o nascimento 00/00/0000:  " );
-   });
-
-   var civil = window.document.getElementById('civil')
-   civil.addEventListener("click", function(){
-   civil.innerText = "ESTADO CIVIL: " +  window.prompt("Digite o seu estado civil:  " );
-   });
-
-   var contatos = window.document.getElementById('contato1')
-   contatos.addEventListener("click", function(){
-   contatos.innerText = "CONTATOS: " +  window.prompt("Digite o seus contatos:  " );
-   });
-   
-   var email = window.document.getElementById('email')
-   email.addEventListener("click", function(){
-   email.innerText = "E-MAIL: " +  window.prompt("Digite os seus emails:  " );
-   });
-   
-   var objetivo = window.document.getElementById('objetivo')
-   objetivo.addEventListener("click", function(){
-   objetivo.innerText = "" +  window.prompt("Digite o seu objetivo:  " );
-   });
-   
-   var forma1 = window.document.getElementById('forma1')
-   forma1.addEventListener("click", function(){
-   forma1.innerText = "" +  window.prompt("Digite o seu curso/formação:  " );
-   });
-  
-   var forma2 = window.document.getElementById('forma2')
-   forma2.addEventListener("click", function(){
-   forma2.innerText = "" +  window.prompt("Digite o seu curso/formação:  " );
-   });
-
-     
-   var forma3 = window.document.getElementById('forma3')
-   forma3.addEventListener("click", function(){
-   forma3.innerText = "" +  window.prompt("Digite o seu curso/formação:  " );
-   });
-
-     
-   var forma4 = window.document.getElementById('forma4')
-   forma4.addEventListener("click", function(){
-   forma4.innerText = "" +  window.prompt("Digite o seu curso/formação:  " );
-   });
-
-   
-     
-   var emprego1 = window.document.getElementById('emprego1')
-   emprego1.addEventListener("click", function(){
-   emprego1.innerText = "" +  window.prompt("EMPRESA: CARGO: PERÍODO: 04/2021 - 05/2022  " );
-   });
-
-
-     
-   var emprego2 = window.document.getElementById('emprego2')
-   emprego2.addEventListener("click", function(){
-   emprego2.innerText = "" +  window.prompt("EMPRESA: CARGO: PERÍODO: 04/2021 - 05/2022:  " );
-   });
-
-
-     
-   var emprego3 = window.document.getElementById('emprego3')
-   emprego3.addEventListener("click", function(){
-   emprego3.innerText = "" +  window.prompt("EMPRESA: CARGO: PERÍODO: 04/2021 - 05/2022:  " );
-   });
-
+    
+    // Imprime a página
+    window.print();
+    
+    // Mostra os botões de editar novamente após a impressão
+    setTimeout(() => {
+        editButtons.forEach(button => {
+            button.style.display = 'inline-block';
+        });
+    }, 1000); // Ajuste o tempo se necessário
+}
 </script>
 
 </body>
