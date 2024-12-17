@@ -1,96 +1,240 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seu Currículo</title>
+    <title> Fazer Currículo </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1 class="text-center mb-4">Responda para fazer o currículo</h1>
+        <form id="multiStepForm">
+            <!-- Passo 1 -->
+            <div class="form-step active">
+                <label for="nome" class="form-label">Digite seu nome:</label>
+                <input type="text" id="nome" class="form-control" required>
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+            </div>
 
-<style>
-body {
-    padding: 20px;
-    background-color: #f8f9fa;
-}
-h1, h2 {
-    text-align: center;
-}
-.container {
-    max-width: 600px;
-    margin: auto;
-}
-.edit-button {
-    margin-left: 10px;
-}
-</style>
+            <!-- Passo 2 -->
+            <div class="form-step">
+                <label for="endereco" class="form-label">Qual o seu endereço?</label>
+                <input type="text" id="endereco" class="form-control" required>
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+            </div>
 
-<div class="container"> 
-    <h1 id="nome">Seu Nome Aqui</h1>
-    <button class="btn btn-secondary btn-sm edit-button" onclick="editField('nome', 'Digite seu nome:')">Editar</button>
-    <hr>
+            <!-- Passo 3 -->
+            <div class="form-step">
+                <label for="nascimento" class="form-label">Digite sua data de nascimento (DD/MM/AAAA):</label>
+                <input type="date" id="nascimento" class="form-control" required>
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+            </div>
 
-    <div id="info">
-        <p id="end">Endereço: Seu Endereço Aqui <button class="btn btn-secondary btn-sm edit-button" onclick="editField('end', 'Digite seu endereço:')">Editar</button></p>
-        <p id="nascimento">Nascimento: Sua Data de Nascimento <button class="btn btn-secondary btn-sm edit-button" onclick="editField('nascimento', 'Digite sua data de nascimento (DD/MM/AAAA):')">Editar</button></p>
-        <p id="civil">Estado Civil: Seu Estado Civil <button class="btn btn-secondary btn-sm edit-button" onclick="editField('civil', 'Digite seu estado civil:')">Editar</button></p>
-        <p id="contato1">Telefone: Seu Telefone <button class="btn btn-secondary btn-sm edit-button" onclick="editField('contato1', 'Digite seu telefone:')">Editar</button></p>
-        <p id="email">E-mail: Seu E-mail <button class="btn btn-secondary btn-sm edit-button" onclick="editField('email', 'Digite seu e-mail:')">Editar</button></p>
+            <!-- Passo 4 -->
+            <div class="form-step">
+                <label for="estadoCivil" class="form-label">Qual seu estado civil?</label>
+                <input type="text" id="estadoCivil" class="form-control" required>
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+            </div>
+
+            <!-- Passo 5 -->
+            <div class="form-step">
+                <label for="formacao" class="form-label">Qual a sua formação?</label>
+                <input type="text" id="formacao" class="form-control" required>
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+            </div>
+
+            <!-- Passo 6 -->
+            <div class="form-step">
+                <label class="form-label">Você possui curso?</label>
+                <div class="btn-container mt-2">
+                    <button type="button" class="btn btn-success" onclick="showCourseFields()">Sim</button>
+                    <button type="button" class="btn btn-danger" onclick="nextStep()">Não</button>
+                </div>
+            </div>
+
+            <!-- Campo de Curso Dinâmico -->
+            <div class="form-step" id="cursoStep">
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container mt-2">
+                    <button type="button" class="btn btn-secondary" onclick="addCourseField()">Adicionar Mais Curso</button>
+                </div>
+            </div>
+
+            <!-- Passo 7 -->
+            <div class="form-step">
+                <label class="form-label">Você possui experiência?</label>
+                <div class="btn-container mt-2">
+                    <button type="button" class="btn btn-success" onclick="showExperienceFields()">Sim</button>
+                    <button type="button" class="btn btn-danger" onclick="nextStep()">Não</button>
+                </div>
+            </div>
+
+            <!-- Campo de Experiência Dinâmico -->
+            <div class="form-step" id="experienciaStep">
+                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container mt-2">
+                    <button type="button" class="btn btn-secondary" onclick="addExperienceField()">Adicionar Mais Experiência</button>
+                </div>
+            </div>
+
+            <!-- Passo Final -->
+            <div class="form-step">
+                <label class="form-label">Qualificações:</label>
+                <p>Trabalho de acordo com o funcionamento da empresa,</p>
+                <p>Dedico-me o possível para exercer minha função com clareza e objetividade.</p>
+                <button type="submit" class="btn btn-success mt-3">Salvar PDF</button>
+            </div>
+        </form>
     </div>
 
-    <h2>Objetivo</h2>
-    <p id="objetivo">Seu Objetivo Profissional <button class="btn btn-secondary btn-sm edit-button" onclick="editField('objetivo', 'Digite seu objetivo:')">Editar</button></p>
+    <script>
+        let currentStep = 0;
+        const formSteps = document.querySelectorAll(".form-step");
 
-    <h2>Formação</h2>
-    <p id="forma1">Curso 1 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma1', 'Digite o nome do seu curso:')">Editar</button></p>
-    <p id="forma2">Curso 2 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma2', 'Digite o nome do seu curso:')">Editar</button></p>
-    <p id="forma3">Curso 3 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma3', 'Digite o nome do seu curso:')">Editar</button></p>
-    <p id="forma4">Curso 4 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('forma4', 'Digite o nome do seu curso:')">Editar</button></p>
+        function nextStep() {
+            if (currentStep < formSteps.length - 1) {
+                formSteps[currentStep].classList.remove("active");
+                currentStep++;
+                formSteps[currentStep].classList.add("active");
+            }
+        }
 
-    <h2>Experiência</h2>
-    <p id="emprego1">Experiência 1 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego1', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
-    <p id="emprego2">Experiência 2 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego2', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
-    <p id="emprego3">Experiência 3 <button class="btn btn-secondary btn-sm edit-button" onclick="editField('emprego3', 'Digite sua experiência (Empresa, Cargo, Período):')">Editar</button></p>
+        function showCourseFields() {
+            nextStep();
+            addCourseField();
+        }
 
-    <h2>Qualificações</h2>
-    <p id="qualificacoes">Estou em busca de uma nova oportunidade. <button class="btn btn-secondary btn-sm edit-button" onclick="editField('qualificacoes', 'Digite suas qualificações:')">Editar</button></p>
+        function showExperienceFields() {
+            nextStep();
+            addExperienceField();
+        }
 
-    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-        <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-    <button class="btn btn-primary" onclick="printCurriculum()">Salvar PDF/Imprimir</button>
-    <p>Se for imprimir, pode ser útil limitar a impressão à primeira folha.</p>
-</div>
+        function addCourseField() {
+            const container = document.getElementById("cursoStep");
+            const courseDiv = document.createElement("div");
+            courseDiv.innerHTML = `
+                <label class="form-label">Digite seu curso:</label>
+                <input type="text" class="form-control mb-2" name="curso[]" required>
+            `;
+            container.insertBefore(courseDiv, container.firstChild);
+        }
 
-<script>
-function editField(id, promptText) {
-    const field = document.getElementById(id);
-    const newText = window.prompt(promptText, field.innerText);
-    if (newText) {
-        field.innerText = newText;
-    }
-}
+        function addExperienceField() {
+            const container = document.getElementById("experienciaStep");
+            const experienceDiv = document.createElement("div");
+            experienceDiv.innerHTML = `
+                <label class="form-label">Digite sua experiência:</label>
+                <input type="text" class="form-control mb-2" name="experiencia[]" required>
+            `;
+            container.insertBefore(experienceDiv, container.firstChild);
+        }
 
-function printCurriculum() {
-    // Esconde todos os botões de editar
-    const editButtons = document.querySelectorAll('.edit-button');
-    editButtons.forEach(button => {
-        button.style.display = 'none';
-    });
-    
-    // Imprime a página
-    window.print();
-    
-    // Mostra os botões de editar novamente após a impressão
-    setTimeout(() => {
-        editButtons.forEach(button => {
-            button.style.display = 'inline-block';
+        // Evento de salvar PDF
+        document.getElementById("multiStepForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const nome = document.getElementById("nome").value;
+            const endereco = document.getElementById("endereco").value;
+            const nascimento = document.getElementById("nascimento").value;
+            const estadoCivil = document.getElementById("estadoCivil").value;
+            const formacao = document.getElementById("formacao").value;
+
+            let cursos = "";
+            document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
+                cursos += `${curso.value}\n`;
+            });
+
+            let experiencias = "";
+            document.querySelectorAll("input[name='experiencia[]']").forEach((exp) => {
+                experiencias += `${exp.value}\n`;
+            });
+
+            const qualificacoes = "Trabalho de acordo com o funcionamento da empresa,\nDedico-me o possível para exercer minha função com clareza e objetividade.";
+
+            const lineHeight = 10;
+            let currentY = 20; // Inicialmente abaixa o texto para centralizar mais
+
+            doc.setFontSize(14); // Aumenta a fonte
+            doc.text(`Nome: ${nome}`, 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text(`Endereço: ${endereco}`, 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text(`Data de Nascimento: ${nascimento}`, 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text(`Estado Civil: ${estadoCivil}`, 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text(`Formação: ${formacao}`, 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text("____________________________________", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+
+            doc.text("Cursos:", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            if (cursos) {
+                cursos.split('\n').forEach(line => {
+                    doc.text(line, 105, currentY, null, null, 'center');
+                    currentY += lineHeight / 2;
+                });
+            } else {
+                doc.text("Nenhum curso informado", 105, currentY, null, null, 'center');
+                currentY += lineHeight;
+            }
+            doc.text("____________________________________", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+
+            currentY += lineHeight / 2;
+            doc.text("Experiências:", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            if (experiencias) {
+                experiencias.split('\n').forEach(line => {
+                    doc.text(line, 105, currentY, null, null, 'center');
+                    currentY += lineHeight / 2;
+                });
+            } else {
+                doc.text("Nenhuma experiência informada", 105, currentY, null, null, 'center');
+                currentY += lineHeight;
+            }
+            doc.text("____________________________________", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+
+            currentY += lineHeight / 2;
+            doc.text("Qualificações:", 105, currentY, null, null, 'center');
+            currentY += lineHeight;
+            doc.text(qualificacoes, 105, currentY, null, null, 'center');
+
+            doc.save("curriculo.pdf");
         });
-    }, 1000); // Ajuste o tempo se necessário
-}
-</script>
+    </script>
 
 </body>
 </html>
