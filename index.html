@@ -36,42 +36,42 @@
     <div class="container">
         <h1 class="text-center mb-4">Responda para fazer o currículo: </h1>
         <form id="multiStepForm">
-            <!-- Passo 1 -->
+    
             <div class="form-step active">
                 <label for="nome" class="form-label">Digite seu nome:</label>
                 <input type="text" id="nome" class="form-control" required>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
-            <!-- Passo 2 -->
+  
             <div class="form-step">
                 <label for="endereco" class="form-label">Qual o seu endereço?</label>
                 <input type="text" id="endereco" class="form-control" required>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
-            <!-- Passo 3 -->
+
             <div class="form-step">
                 <label for="nascimento" class="form-label">Digite sua data de nascimento (DD/MM/AAAA):</label>
                 <input type="date" id="nascimento" class="form-control" required>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
-            <!-- Passo 4 -->
+
             <div class="form-step">
                 <label for="estadoCivil" class="form-label">Qual seu estado civil?</label>
                 <input type="text" id="estadoCivil" class="form-control" required>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
-            <!-- Passo 5 -->
+   
             <div class="form-step">
                 <label for="formacao" class="form-label">Qual a sua formação?</label>
                 <input type="text" id="formacao" class="form-control" required>
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
-            <!-- Passo 6 -->
+   
             <div class="form-step">
                 <label class="form-label">Você possui curso?</label>
                 <div class="btn-container mt-2">
@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <!-- Campo de Curso Dinâmico -->
+       
             <div class="form-step" id="cursoStep">
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
                 <div class="btn-container mt-2">
@@ -88,7 +88,7 @@
                 </div>
             </div>
 
-            <!-- Passo 7 -->
+
             <div class="form-step">
                 <label class="form-label">Você possui experiência?</label>
                 <div class="btn-container mt-2">
@@ -97,7 +97,7 @@
                 </div>
             </div>
 
-            <!-- Campo de Experiência Dinâmico -->
+         
             <div class="form-step" id="experienciaStep">
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
                 <div class="btn-container mt-2">
@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            <!-- Passo Final -->
+   
             <div class="form-step">
                 <label class="form-label">Qualificações:</label>
                 <p>Trabalho de acordo com o funcionamento da empresa,</p>
@@ -157,7 +157,7 @@
             container.insertBefore(experienceDiv, container.firstChild);
         }
 
-        // Evento de salvar PDF
+     
         document.getElementById("multiStepForm").addEventListener("submit", function (event) {
             event.preventDefault();
             const { jsPDF } = window.jspdf;
@@ -182,9 +182,9 @@
             const qualificacoes = "Trabalho de acordo com o funcionamento da empresa,\nDedico-me o possível para exercer minha função com clareza e objetividade.";
 
             const lineHeight = 10;
-            let currentY = 20; // Inicialmente abaixa o texto para centralizar mais
+            let currentY = 20; 
 
-            doc.setFontSize(14); // Aumenta a fonte
+            doc.setFontSize(14); 
             doc.text(`Nome: ${nome}`, 105, currentY, null, null, 'center');
             currentY += lineHeight;
             doc.text(`Endereço: ${endereco}`, 105, currentY, null, null, 'center');
