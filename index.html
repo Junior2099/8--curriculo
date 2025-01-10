@@ -51,11 +51,18 @@
             </div>
 
             <div class="form-step">
-                <label for="endereco" class="form-label">Qual o seu endereço?</label>
-                <input type="text" id="endereco" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
-            </div>
-
+              <label for="endereco" class="form-label">Qual o seu endereço?</label>
+              <input type="text" id="endereco" class="form-control" required>
+              
+              <label for="bairro" class="form-label mt-3">Qual o seu bairro?</label>
+              <input type="text" id="bairro" class="form-control" required>
+              
+              <label for="cep" class="form-label mt-3">Qual o seu CEP?</label>
+              <input type="text" id="cep" class="form-control" required>
+              
+              <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+          </div>
+          
             <div class="form-step">
                 <label for="nascimento" class="form-label">Digite sua data de nascimento (DD/MM/AAAA):</label>
                 <input type="date" id="nascimento" class="form-control" required>
@@ -68,11 +75,28 @@
                 <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
 
+
+
             <div class="form-step">
-                <label for="email" class="form-label">Qual o seu e-mail?</label>
-                <input type="text" id="email" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
-            </div>
+              <label for="possuiEmail" class="form-label">Você possui e-mail?</label>
+              <div class="btn-container mt-2">
+                  <button type="button" class="btn btn-success" onclick="showEmailField()">Sim</button>
+                  <button type="button" class="btn btn-danger" onclick="hideEmailFieldAndContinue()">Não</button>
+              </div>
+          </div>
+          
+          <div class="form-step" id="emailStep" style="display: none;">
+              <label for="email" class="form-label mt-3">Qual o seu e-mail?</label>
+              <input type="text" id="email" class="form-control">
+              <button type="button" class="btn btn-primary mt-3" onclick="showNextStep()">Continuar</button>
+          </div>
+          
+          
+          
+          
+          
+          
+          
 
             <div class="form-step">
                 <label for="estadoCivil" class="form-label">Qual seu estado civil?</label>
@@ -124,124 +148,154 @@
             </div>
         </form>
     </div>
-
     <script>
-        let currentStep = 0;
-        const formSteps = document.querySelectorAll(".form-step");
+      let currentStep = 0;
+      const formSteps = document.querySelectorAll(".form-step");
+      let emailFieldVisible = false;
+  
+      function nextStep() {
+          if (currentStep < formSteps.length - 1) {
+              formSteps[currentStep].classList.remove("active");
+              currentStep++;
+              formSteps[currentStep].classList.add("active");
+          }
+      }
+  
+      function showEmailField() {
+          emailFieldVisible = true;
+          document.getElementById('emailStep').style.display = 'block';
+          nextStep();
+      }
+  
+      function hideEmailFieldAndContinue() {
+          emailFieldVisible = false;
+          document.getElementById('emailStep').style.display = 'none';
+          nextStep();
+          nextStep(); // Pular diretamente para a pergunta sobre o estado civil
+      }
+  
+      function showNextStep() {
+          document.getElementById('emailStep').style.display = 'none';
+          nextStep();
+      }
+  
+      function showCourseFields() {
+          nextStep();
+          addCourseField();
+      }
+  
+      function showExperienceFields() {
+          nextStep();
+          addExperienceField();
+      }
+  
+      function addCourseField() {
+          const container = document.getElementById("cursoStep");
+          const courseDiv = document.createElement("div");
+          courseDiv.innerHTML = `
+              <label class="form-label">Digite seu curso:</label>
+              <input type="text" class="form-control mb-2" name="curso[]" required>
+          `;
+          container.insertBefore(courseDiv, container.firstChild);
+      }
+  
+      function addExperienceField() {
+          const container = document.getElementById("experienciaStep");
+          const experienceDiv = document.createElement("div");
+          experienceDiv.innerHTML = `
+              <label class="form-label">Digite sua experiência (Empresa, Cargo, Período):</label>
+              <input type="text" class="form-control mb-2" name="experiencia[]" required>
+          `;
+          container.insertBefore(experienceDiv, container.firstChild);
+      }
+  
+      document.getElementById("multiStepForm").addEventListener("submit", function (event) {
+          event.preventDefault();
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+  
+          const nome = document.getElementById("nome").value;
+          const nacionalidade = document.getElementById("nacionalidade").value;
+          const endereco = document.getElementById("endereco").value;
+          const bairro = document.getElementById("bairro").value;
+          const cep = document.getElementById("cep").value;
+          const nascimento = document.getElementById("nascimento").value;
+          const telefone = document.getElementById("telefone").value;
+          const estadoCivil = document.getElementById("estadoCivil").value;
+          const formacao = document.getElementById("formacao").value;
+  
+          let email = "";
+          if (emailFieldVisible) {
+              email = document.getElementById("email").value;
+          }
+  
+          let cursos = "";
+          document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
+              cursos += `${curso.value}\n`;
+          });
+  
+          let experiencias = "";
+          document.querySelectorAll("input[name='experiencia[]']").forEach((exp) => {
+              experiencias += `${exp.value}\n`;
+          });
+  
+          const qualificacoes = "Trabalho de acordo com o funcionamento da empresa,\nDedico-me o possível para exercer minha função com clareza e objetividade.";
+  
+          const pageWidth = doc.internal.pageSize.getWidth();
+  
+          let currentY = 20; 
+          const lineHeight = 8; 
+  
+          
+          doc.setFontSize(14);
+          doc.setFont("helvetica", "bold");
+          doc.text(nome, pageWidth / 2, currentY, { align: "center" });
+          currentY += lineHeight;
+  
+          
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "normal");
+  
+          const sections = [
+              { title: "Nacionalidade", content: nacionalidade },
+              { title: "Endereço", content: endereco },
+              { title: "Bairro", content: bairro },
+              { title: "CEP", content: cep },
+              { title: "Data de Nascimento", content: nascimento },
+              { title: "Telefone", content: telefone },
+              emailFieldVisible ? { title: "E-mail", content: email } : null,
+              { title: "Estado Civil", content: estadoCivil },
+              { title: "Formação", content: formacao },
+              { title: "Cursos", content: cursos || "Nenhum curso informado" },
+              { title: "Experiências", content: experiencias || "Nenhuma experiência informada" },
+              { title: "Qualificações", content: qualificacoes }
+          ].filter(Boolean);
+  
+          sections.forEach((section) => {
+              
+              doc.setFont("helvetica", "bold");
+              doc.text(`${section.title}:`, 20, currentY);
+              currentY += lineHeight;
+  
+            
+              doc.setFont("helvetica", "normal");
+              const lines = doc.splitTextToSize(section.content, pageWidth - 40); 
+              lines.forEach((line) => {
+                  doc.text(line, 20, currentY);
+                  currentY += lineHeight - 2; 
+              });
+  
+              currentY += 2; 
+          });
+  
+          
+          doc.save("curriculo.pdf");
+      });
+  </script>
+  
+  
+  
+  
 
-        function nextStep() {
-            if (currentStep < formSteps.length - 1) {
-                formSteps[currentStep].classList.remove("active");
-                currentStep++;
-                formSteps[currentStep].classList.add("active");
-            }
-        }
-
-        function showCourseFields() {
-            nextStep();
-            addCourseField();
-        }
-
-        function showExperienceFields() {
-            nextStep();
-            addExperienceField();
-        }
-
-        function addCourseField() {
-            const container = document.getElementById("cursoStep");
-            const courseDiv = document.createElement("div");
-            courseDiv.innerHTML = `
-                <label class="form-label">Digite seu curso:</label>
-                <input type="text" class="form-control mb-2" name="curso[]" required>
-            `;
-            container.insertBefore(courseDiv, container.firstChild);
-        }
-
-        function addExperienceField() {
-            const container = document.getElementById("experienciaStep");
-            const experienceDiv = document.createElement("div");
-            experienceDiv.innerHTML = `
-                <label class="form-label">Digite sua experiência (Empresa, Cargo, Período):</label>
-                <input type="text" class="form-control mb-2" name="experiencia[]" required>
-            `;
-            container.insertBefore(experienceDiv, container.firstChild);
-        }
-        document.getElementById("multiStepForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const nome = document.getElementById("nome").value;
-    const nacionalidade = document.getElementById("nacionalidade").value;
-    const endereco = document.getElementById("endereco").value;
-    const nascimento = document.getElementById("nascimento").value;
-    const telefone = document.getElementById("telefone").value;
-    const email = document.getElementById("email").value;
-    const estadoCivil = document.getElementById("estadoCivil").value;
-    const formacao = document.getElementById("formacao").value;
-
-    let cursos = "";
-    document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
-        cursos += `${curso.value}\n`;
-    });
-
-    let experiencias = "";
-    document.querySelectorAll("input[name='experiencia[]']").forEach((exp) => {
-        experiencias += `${exp.value}\n`;
-    });
-
-    const qualificacoes = "Trabalho de acordo com o funcionamento da empresa,\nDedico-me o possível para exercer minha função com clareza e objetividade.";
-
-    const pageWidth = doc.internal.pageSize.getWidth();
-
-    let currentY = 20; 
-    const lineHeight = 8; 
-
-    
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(nome, pageWidth / 2, currentY, { align: "center" });
-    currentY += lineHeight;
-
-    
-    doc.setFontSize(9);
-    doc.setFont("helvetica", "normal");
-
-    const sections = [
-        { title: "Nacionalidade", content: nacionalidade },
-        { title: "Endereço", content: endereco },
-        { title: "Data de Nascimento", content: nascimento },
-        { title: "Telefone", content: telefone },
-        { title: "E-mail", content: email },
-        { title: "Estado Civil", content: estadoCivil },
-        { title: "Formação", content: formacao },
-        { title: "Cursos", content: cursos || "Nenhum curso informado" },
-        { title: "Experiências", content: experiencias || "Nenhuma experiência informada" },
-        { title: "Qualificações", content: qualificacoes }
-    ];
-
-    sections.forEach((section) => {
-        
-        doc.setFont("helvetica", "bold");
-        doc.text(`${section.title}:`, 20, currentY);
-        currentY += lineHeight;
-
-      
-        doc.setFont("helvetica", "normal");
-        const lines = doc.splitTextToSize(section.content, pageWidth - 40); 
-        lines.forEach((line) => {
-            doc.text(line, 20, currentY);
-            currentY += lineHeight - 2; 
-        });
-
-        currentY += 2; 
-    });
-
-    
-    doc.save("curriculo.pdf");
-});
-
-
-    </script>
 </body>
 </html>
