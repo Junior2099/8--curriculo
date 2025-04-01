@@ -17,12 +17,13 @@
             max-width: 600px;
             margin: auto;
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .form-step {
             display: none;
+            padding: 15px;
         }
         .form-step.active {
             display: block;
@@ -30,272 +31,488 @@
         .btn-container {
             display: flex;
             justify-content: space-between;
+            margin-top: 15px;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-top: 10px;
+            display: block;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background-color: #198754;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .experience-field, .course-field {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mb-4">Responda para fazer o currículo: </h1>
+        <h1 class="text-center mb-4">Responda para fazer o currículo:</h1>
         <form id="multiStepForm">
-
+        
             <div class="form-step active">
                 <label for="nome" class="form-label">Digite seu nome:</label>
-                <input type="text" id="nome" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <input type="text" id="nome" class="form-control" required oninput="formatarNome(this)">
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
-
+            
+          
             <div class="form-step">
                 <label for="nacionalidade" class="form-label">Qual é sua nacionalidade?</label>
                 <input type="text" id="nacionalidade" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
-
+            
+   
             <div class="form-step">
-              <label for="endereco" class="form-label">Qual o seu endereço?</label>
-              <input type="text" id="endereco" class="form-control" required>
-              
-              <label for="bairro" class="form-label mt-3">Qual o seu bairro?</label>
-              <input type="text" id="bairro" class="form-control" required>
-              
-              <label for="cep" class="form-label mt-3">Qual o seu CEP?</label>
-              <input type="text" id="cep" class="form-control" required>
-              
-              <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
-          </div>
-          
+                <label for="endereco" class="form-label">Qual o seu endereço?</label>
+                <input type="text" id="endereco" class="form-control" required>
+                <label for="bairro" class="form-label">Qual o seu bairro?</label>
+                <input type="text" id="bairro" class="form-control" required>
+                <label for="cep" class="form-label">Qual o seu CEP?</label>
+                <input type="text" id="cep" class="form-control" required maxlength="9" oninput="formatarCEP(this)">
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
+            </div>
+            
+      
             <div class="form-step">
-                <label for="nascimento" class="form-label">Digite sua data de nascimento (DD/MM/AAAA):</label>
+                <label for="nascimento" class="form-label">Digite sua data de nascimento:</label>
                 <input type="date" id="nascimento" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
-
+            
+ 
             <div class="form-step">
                 <label for="telefone" class="form-label">Qual telefone para contato?</label>
-                <input type="text" id="telefone" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <input type="text" id="telefone" class="form-control" required maxlength="15" oninput="formatarTelefone(this)">
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
-
-
-
+            
+         
             <div class="form-step">
-              <label for="possuiEmail" class="form-label">Você possui e-mail?</label>
-              <div class="btn-container mt-2">
-                  <button type="button" class="btn btn-success" onclick="showEmailField()">Sim</button>
-                  <button type="button" class="btn btn-danger" onclick="hideEmailFieldAndContinue()">Não</button>
-              </div>
-          </div>
+                <label class="form-label">Você possui e-mail?</label>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-success" onclick="showEmailField()">Sim</button>
+                    <button type="button" class="btn btn-danger" onclick="hideEmailFieldAndContinue()">Não</button>
+                </div>
+            </div>
+            
           
-          <div class="form-step" id="emailStep" style="display: none;">
-              <label for="email" class="form-label mt-3">Qual o seu e-mail?</label>
-              <input type="text" id="email" class="form-control">
-              <button type="button" class="btn btn-primary mt-3" onclick="showNextStep()">Continuar</button>
-          </div>
-          
-          
-          
-          
-          
-          
-          
-
+            <div class="form-step" id="emailStep">
+                <label for="email" class="form-label">Qual o seu e-mail?</label>
+                <input type="email" id="email" class="form-control">
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="showNextStep()">Continuar</button>
+                </div>
+            </div>
+            
+       
             <div class="form-step">
                 <label for="estadoCivil" class="form-label">Qual seu estado civil?</label>
                 <input type="text" id="estadoCivil" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
-
+            
+      
             <div class="form-step">
                 <label for="formacao" class="form-label">Qual a sua formação?</label>
                 <input type="text" id="formacao" class="form-control" required>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
+                <div class="btn-container">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
             </div>
+            
 
             <div class="form-step">
                 <label class="form-label">Você possui curso?</label>
-                <div class="btn-container mt-2">
+                <div class="btn-container">
                     <button type="button" class="btn btn-success" onclick="showCourseFields()">Sim</button>
                     <button type="button" class="btn btn-danger" onclick="nextStep()">Não</button>
                 </div>
             </div>
+            
 
             <div class="form-step" id="cursoStep">
-                <div class="btn-container mt-2">
+                <div id="cursosContainer"></div>
+                <div class="btn-container">
                     <button type="button" class="btn btn-secondary" onclick="addCourseField()">Adicionar Mais Curso</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
                 </div>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
-
+            
+         
             <div class="form-step">
                 <label class="form-label">Você possui experiência?</label>
-                <div class="btn-container mt-2">
+                <div class="btn-container">
                     <button type="button" class="btn btn-success" onclick="showExperienceFields()">Sim</button>
                     <button type="button" class="btn btn-danger" onclick="nextStep()">Não</button>
                 </div>
             </div>
-
+            
+          
             <div class="form-step" id="experienciaStep">
-                <div class="btn-container mt-2">
+                <div id="experienciasContainer"></div>
+                <div class="btn-container">
                     <button type="button" class="btn btn-secondary" onclick="addExperienceField()">Adicionar Mais Experiência</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
                 </div>
-                <button type="button" class="btn btn-primary mt-3" onclick="nextStep()">Continuar</button>
             </div>
-
+            
+     
             <div class="form-step">
                 <label class="form-label">Qualificações:</label>
                 <p>Trabalho de acordo com o funcionamento da empresa,</p>
                 <p>Dedico-me o possível para exercer minha função com clareza e objetividade.</p>
-                <button type="submit" class="btn btn-success mt-3">Salvar PDF</button>
+                <div class="btn-container">
+                    <button type="button" id="generatePdf" class="btn btn-success">Salvar PDF</button>
+                </div>
             </div>
         </form>
     </div>
-    <script>
-      let currentStep = 0;
-      const formSteps = document.querySelectorAll(".form-step");
-      let emailFieldVisible = false;
-  
-      function nextStep() {
-          if (currentStep < formSteps.length - 1) {
-              formSteps[currentStep].classList.remove("active");
-              currentStep++;
-              formSteps[currentStep].classList.add("active");
-          }
-      }
-  
-      function showEmailField() {
-          emailFieldVisible = true;
-          document.getElementById('emailStep').style.display = 'block';
-          nextStep();
-      }
-  
-      function hideEmailFieldAndContinue() {
-          emailFieldVisible = false;
-          document.getElementById('emailStep').style.display = 'none';
-          nextStep();
-          nextStep();
-      }
-  
-      function showNextStep() {
-          document.getElementById('emailStep').style.display = 'none';
-          nextStep();
-      }
-  
-      function showCourseFields() {
-          nextStep();
-          addCourseField();
-      }
-  
-      function showExperienceFields() {
-          nextStep();
-          addExperienceField();
-      }
-  
-      function addCourseField() {
-          const container = document.getElementById("cursoStep");
-          const courseDiv = document.createElement("div");
-          courseDiv.innerHTML = `
-              <label class="form-label">Digite seu curso:</label>
-              <input type="text" class="form-control mb-2" name="curso[]" required>
-          `;
-          container.insertBefore(courseDiv, container.firstChild);
-      }
-  
-      function addExperienceField() {
-          const container = document.getElementById("experienciaStep");
-          const experienceDiv = document.createElement("div");
-          experienceDiv.innerHTML = `
-              <label class="form-label">Digite sua experiência (Empresa, Cargo, Período):</label>
-              <input type="text" class="form-control mb-2" name="experiencia[]" required>
-          `;
-          container.insertBefore(experienceDiv, container.firstChild);
-      }
-  
-      document.getElementById("multiStepForm").addEventListener("submit", function (event) {
-          event.preventDefault();
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF();
-  
-          const nome = document.getElementById("nome").value;
-          const nacionalidade = document.getElementById("nacionalidade").value;
-          const endereco = document.getElementById("endereco").value;
-          const bairro = document.getElementById("bairro").value;
-          const cep = document.getElementById("cep").value;
-          const nascimento = document.getElementById("nascimento").value;
-          const telefone = document.getElementById("telefone").value;
-          const estadoCivil = document.getElementById("estadoCivil").value;
-          const formacao = document.getElementById("formacao").value;
-  
-          let email = "";
-          if (emailFieldVisible) {
-              email = document.getElementById("email").value;
-          }
-  
-          let cursos = "";
-          document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
-              cursos += `${curso.value}\n`;
-          });
-  
-          let experiencias = "";
-          document.querySelectorAll("input[name='experiencia[]']").forEach((exp) => {
-              experiencias += `${exp.value}\n`;
-          });
-  
-          const qualificacoes = "Trabalho de acordo com o funcionamento da empresa,\nDedico-me o possível para exercer minha função com clareza e objetividade.";
-  
-          const pageWidth = doc.internal.pageSize.getWidth();
-  
-          let currentY = 20; 
-          const lineHeight = 8; 
-  
-          
-          doc.setFontSize(14);
-          doc.setFont("helvetica", "bold");
-          doc.text(nome, pageWidth / 2, currentY, { align: "center" });
-          currentY += lineHeight;
-  
-          
-          doc.setFontSize(9);
-          doc.setFont("helvetica", "normal");
-  
-          const sections = [
-              { title: "Nacionalidade", content: nacionalidade },
-              { title: "Endereço", content: endereco },
-              { title: "Bairro", content: bairro },
-              { title: "CEP", content: cep },
-              { title: "Data de Nascimento", content: nascimento },
-              { title: "Telefone", content: telefone },
-              emailFieldVisible ? { title: "E-mail", content: email } : null,
-              { title: "Estado Civil", content: estadoCivil },
-              { title: "Formação", content: formacao },
-              { title: "Cursos", content: cursos || "Nenhum curso informado" },
-              { title: "Experiências", content: experiencias || "Nenhuma experiência informada" },
-              { title: "Qualificações", content: qualificacoes }
-          ].filter(Boolean);
-  
-          sections.forEach((section) => {
-              
-              doc.setFont("helvetica", "bold");
-              doc.text(`${section.title}:`, 20, currentY);
-              currentY += lineHeight;
-  
-            
-              doc.setFont("helvetica", "normal");
-              const lines = doc.splitTextToSize(section.content, pageWidth - 40); 
-              lines.forEach((line) => {
-                  doc.text(line, 20, currentY);
-                  currentY += lineHeight - 2; 
-              });
-  
-              currentY += 2; 
-          });
-  
-          
-          doc.save("curriculo.pdf");
-      });
-  </script>
-  
-  
-  
-  
 
+    <script>
+ 
+        const { jsPDF } = window.jspdf;
+        let currentStep = 0;
+        const formSteps = document.querySelectorAll(".form-step");
+        let emailFieldVisible = false;
+        
+     
+        function initializeForm() {
+            formSteps.forEach((step, index) => {
+                if (index !== 0) {
+                    step.style.display = 'none';
+                } else {
+                    step.classList.add('active');
+                }
+            });
+            
+            
+            document.getElementById('cursoStep').style.display = 'none';
+            document.getElementById('experienciaStep').style.display = 'none';
+            document.getElementById('emailStep').style.display = 'none';
+        }
+        
+        
+        window.onload = initializeForm;
+        
+        function nextStep() {
+            if (currentStep < formSteps.length - 1) {
+                formSteps[currentStep].style.display = 'none';
+                currentStep++;
+                formSteps[currentStep].style.display = 'block';
+                formSteps[currentStep].classList.add('active');
+            }
+        }
+        
+        function showEmailField() {
+            emailFieldVisible = true;
+            document.getElementById('emailStep').style.display = 'block';
+            nextStep();
+        }
+        
+        function hideEmailFieldAndContinue() {
+            emailFieldVisible = false;
+            document.getElementById('emailStep').style.display = 'none';
+            nextStep();
+        }
+        
+        function showNextStep() {
+            document.getElementById('emailStep').style.display = 'none';
+            nextStep();
+        }
+        
+        function showCourseFields() {
+            formSteps[currentStep].style.display = 'none';
+            document.getElementById('cursoStep').style.display = 'block';
+            currentStep = Array.from(formSteps).indexOf(document.getElementById('cursoStep'));
+            formSteps[currentStep].classList.add('active');
+            addCourseField();
+        }
+        
+        function showExperienceFields() {
+            formSteps[currentStep].style.display = 'none';
+            document.getElementById('experienciaStep').style.display = 'block';
+            currentStep = Array.from(formSteps).indexOf(document.getElementById('experienciaStep'));
+            formSteps[currentStep].classList.add('active');
+            addExperienceField();
+        }
+        
+        function addCourseField() {
+            const container = document.getElementById("cursosContainer");
+            const courseDiv = document.createElement("div");
+            courseDiv.className = "course-field";
+            courseDiv.innerHTML = `
+                <input type="text" class="form-control mb-2" name="curso[]" placeholder="Digite o nome do curso" required>
+            `;
+            container.appendChild(courseDiv);
+        }
+        
+        function addExperienceField() {
+            const container = document.getElementById("experienciasContainer");
+            const experienceDiv = document.createElement("div");
+            experienceDiv.className = "experience-field";
+            experienceDiv.innerHTML = `
+                <label class="form-label">Empresa:</label>
+                <input type="text" class="form-control mb-2" name="empresa[]" required>
+                
+                <label class="form-label">Cargo:</label>
+                <input type="text" class="form-control mb-2" name="cargo[]" required>
+                
+                <label class="form-label">Período (ex: 2020-2022):</label>
+                <input type="text" class="form-control" name="periodo[]" required>
+            `;
+            container.appendChild(experienceDiv);
+        }
+        
+  
+        function formatarNome(input) {
+            input.value = input.value.toLowerCase().replace(/(?:^|\s)\S/g, function(a) {
+                return a.toUpperCase();
+            });
+        }
+        
+        function formatarTelefone(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length > 11) {
+                value = value.substring(0, 11);
+            }
+            
+            if (value.length > 0) {
+                value = value.replace(/^(\d{0,2})/, '($1)');
+            }
+            if (value.length > 3) {
+                value = value.replace(/^(\(\d{2}\))\s?(\d{0,5})/, '$1 $2');
+            }
+            if (value.length > 10) {
+                value = value.replace(/(\d{5})(\d{0,4})/, '$1-$2');
+            }
+            
+            input.value = value;
+        }
+        
+        function formatarCEP(input) {
+            let value = input.value.replace(/\D/g, '');
+            
+            if (value.length > 8) {
+                value = value.substring(0, 8);
+            }
+            
+            if (value.length > 5) {
+                value = value.replace(/^(\d{5})(\d{0,3})/, '$1-$2');
+            }
+            
+            input.value = value;
+        }
+        
+
+        document.getElementById("generatePdf").addEventListener("click", function() {
+            
+            const nome = document.getElementById("nome").value;
+            const nacionalidade = document.getElementById("nacionalidade").value;
+            const endereco = document.getElementById("endereco").value;
+            const bairro = document.getElementById("bairro").value;
+            const cep = document.getElementById("cep").value;
+            const nascimento = document.getElementById("nascimento").value;
+            const telefone = document.getElementById("telefone").value;
+            const estadoCivil = document.getElementById("estadoCivil").value;
+            const formacao = document.getElementById("formacao").value;
+            const email = emailFieldVisible ? document.getElementById("email").value : "";
+            
+      
+            let cursos = [];
+            document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
+                if (curso.value.trim() !== "") {
+                    cursos.push(`• ${curso.value}`);
+                }
+            });
+            
+            
+            let experiencias = [];
+            const empresas = document.querySelectorAll("input[name='empresa[]']");
+            const cargos = document.querySelectorAll("input[name='cargo[]']");
+            const periodos = document.querySelectorAll("input[name='periodo[]']");
+            
+            for (let i = 0; i < empresas.length; i++) {
+                if (empresas[i].value.trim() !== "") {
+                    experiencias.push(`• ${empresas[i].value} - ${cargos[i].value} (${periodos[i].value})`);
+                }
+            }
+            
+           
+            const doc = new jsPDF();
+            
+           
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const margin = 20;
+            let currentY = 20;
+            const lineHeight = 7;
+            const sectionGap = 10;
+            
+           
+            doc.setDrawColor(0, 0, 0);
+            doc.setFillColor(51, 102, 153);
+            doc.rect(0, 0, pageWidth, 40, 'F');
+            
+            doc.setFontSize(20);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(255, 255, 255);
+            doc.text(nome.toUpperCase(), pageWidth / 2, 30, { align: "center" });
+            
+            
+            doc.setTextColor(0, 0, 0);
+            currentY = 50;
+            
+            
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("INFORMAÇÕES PESSOAIS", margin, currentY);
+            currentY += lineHeight;
+            
+            doc.setFont("helvetica", "normal");
+            doc.text(`Nacionalidade: ${nacionalidade}`, margin, currentY);
+            currentY += lineHeight;
+            doc.text(`Estado Civil: ${estadoCivil}`, margin, currentY);
+            currentY += lineHeight;
+            doc.text(`Data de Nascimento: ${formatDate(nascimento)}`, margin, currentY);
+            currentY += lineHeight;
+            doc.text(`Endereço: ${endereco}, ${bairro} - CEP: ${cep}`, margin, currentY);
+            currentY += lineHeight;
+            doc.text(`Telefone: ${telefone}`, margin, currentY);
+            currentY += lineHeight;
+            if (email) {
+                doc.text(`E-mail: ${email}`, margin, currentY);
+                currentY += lineHeight;
+            }
+            
+            currentY += sectionGap;
+            
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("FORMAÇÃO ACADÊMICA", margin, currentY);
+            currentY += lineHeight;
+            
+            doc.setFont("helvetica", "normal");
+            doc.text(formacao, margin, currentY);
+            currentY += lineHeight;
+            
+            currentY += sectionGap;
+            
+       
+            if (cursos.length > 0) {
+                doc.setFont("helvetica", "bold");
+                doc.text("CURSOS COMPLEMENTARES", margin, currentY);
+                currentY += lineHeight;
+                
+                doc.setFont("helvetica", "normal");
+                cursos.forEach(curso => {
+                    doc.text(curso, margin, currentY);
+                    currentY += lineHeight;
+                });
+                
+                currentY += sectionGap;
+            }
+            
+            
+            if (experiencias.length > 0) {
+                doc.setFont("helvetica", "bold");
+                doc.text("EXPERIÊNCIA PROFISSIONAL", margin, currentY);
+                currentY += lineHeight;
+                
+                doc.setFont("helvetica", "normal");
+                experiencias.forEach(exp => {
+                    const lines = doc.splitTextToSize(exp, pageWidth - 40);
+                    lines.forEach(line => {
+                        doc.text(line, margin, currentY);
+                        currentY += lineHeight;
+                    });
+                });
+                
+                currentY += sectionGap;
+            }
+            
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("QUALIFICAÇÕES", margin, currentY);
+            currentY += lineHeight;
+            
+            doc.setFont("helvetica", "normal");
+            const qualificacoes = [
+                "• Trabalho de acordo com o funcionamento da empresa",
+                "• Dedico-me o possível para exercer minha função com clareza e objetividade",
+                "• Capacidade de trabalhar em equipe",
+                "• Boa comunicação"
+            ];
+            
+            qualificacoes.forEach(qual => {
+                doc.text(qual, margin, currentY);
+                currentY += lineHeight;
+            });
+            
+    
+            doc.setDrawColor(51, 102, 153);
+            doc.setLineWidth(0.5);
+            doc.line(margin, doc.internal.pageSize.getHeight() - 20, pageWidth - margin, doc.internal.pageSize.getHeight() - 20);
+            
+            doc.setFontSize(8);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Currículo gerado em " + new Date().toLocaleDateString(), pageWidth / 2, doc.internal.pageSize.getHeight() - 15, { align: "center" });
+            
+            
+            doc.save("curriculo_" + nome.replace(/\s/g, '_') + ".pdf");
+        });
+        
+        function formatDate(dateString) {
+            if (!dateString) return "";
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+    </script>
 </body>
 </html>
