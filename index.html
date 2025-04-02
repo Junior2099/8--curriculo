@@ -69,7 +69,7 @@
             background-color: #dc3545;
             color: white;
         }
-        .experience-field, .course-field {
+        .experience-field, .course-field, .telefone-field {
             margin-bottom: 20px;
             padding: 15px;
             border: 1px solid #eee;
@@ -100,7 +100,6 @@
     <div class="container">
         <h1 class="text-center mb-4">Responda para fazer o currículo:</h1>
         
-       
         <div class="progress-nav" id="stepNavigation">
             <button type="button" class="step-btn active" onclick="goToStep(0)">Nome</button>
             <button type="button" class="step-btn" onclick="goToStep(1)">Nacionalidade</button>
@@ -156,8 +155,13 @@
             </div>
 
             <div class="form-step">
-                <label for="telefone" class="form-label">Qual telefone para contato?</label>
-                <input type="text" id="telefone" class="form-control" required maxlength="15" oninput="formatarTelefone(this)">
+                <label class="form-label">Telefones para contato:</label>
+                <div id="telefonesContainer">
+                    <div class="telefone-field">
+                        <input type="text" class="form-control mb-2" name="telefone[]" maxlength="15" oninput="formatarTelefone(this)" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm mb-3" onclick="addTelefoneField()">Adicionar outro telefone</button>
                 <div class="btn-container">
                     <button type="button" class="btn btn-secondary" onclick="previousStep()">Voltar</button>
                     <button type="button" class="btn btn-primary" onclick="nextStep()">Continuar</button>
@@ -268,7 +272,6 @@
             document.getElementById('experienciaStep').style.display = 'none';
             document.getElementById('emailStep').style.display = 'none';
             
-          
             updateStepNavigation();
         }
 
@@ -337,7 +340,7 @@
 
         function hideEmailFieldAndContinue() {
             emailFieldVisible = false;
-            document.getElementById('emailStep').style.display = 'none';
+            document.getElementById('email').value = ""; // Limpar o campo de e-mail
             nextStep();
         }
 
@@ -405,6 +408,24 @@
             experienceField.remove();
         }
 
+        function addTelefoneField() {
+            const container = document.getElementById("telefonesContainer");
+            const telefoneDiv = document.createElement("div");
+            telefoneDiv.className = "telefone-field";
+            telefoneDiv.innerHTML = `
+                <div class="d-flex">
+                    <input type="text" class="form-control mb-2 me-2" name="telefone[]" maxlength="15" oninput="formatarTelefone(this)">
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeTelefoneField(this)">×</button>
+                </div>
+            `;
+            container.appendChild(telefoneDiv);
+        }
+
+        function removeTelefoneField(button) {
+            const telefoneField = button.closest('.telefone-field');
+            telefoneField.remove();
+        }
+
         function formatarNome(input) {
             input.value = input.value.toLowerCase().replace(/(?:^|\s)\S/g, function(a) {
                 return a.toUpperCase();
@@ -439,6 +460,12 @@
             input.value = value;
         }
 
+        function formatDate(dateString) {
+            if (!dateString) return "";
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
         document.getElementById("generatePdf").addEventListener("click", function() {
             const nome = document.getElementById("nome").value;
             const nacionalidade = document.getElementById("nacionalidade").value;
@@ -446,10 +473,17 @@
             const bairro = document.getElementById("bairro").value;
             const cep = document.getElementById("cep").value;
             const nascimento = document.getElementById("nascimento").value;
-            const telefone = document.getElementById("telefone").value;
             const estadoCivil = document.getElementById("estadoCivil").value;
             const formacao = document.getElementById("formacao").value;
             const email = emailFieldVisible ? document.getElementById("email").value : "";
+
+           
+            let telefones = [];
+            document.querySelectorAll("input[name='telefone[]']").forEach((tel) => {
+                if (tel.value.trim() !== "") {
+                    telefones.push(tel.value);
+                }
+            });
 
             let cursos = [];
             document.querySelectorAll("input[name='curso[]']").forEach((curso) => {
@@ -506,8 +540,11 @@
             doc.text(`Endereço: ${endereco}, ${bairro} - CEP: ${cep}`, margin, currentY);
             currentY += lineHeight;
 
-            doc.text(`Telefone: ${telefone}`, margin, currentY);
-            currentY += lineHeight;
+            // Adicionar todos os telefones
+            telefones.forEach((tel, index) => {
+                doc.text(`Telefone ${telefones.length > 1 ? (index + 1) : ''}: ${tel}`, margin, currentY);
+                currentY += lineHeight;
+            });
 
             if (email) {
                 doc.text(`E-mail: ${email}`, margin, currentY);
@@ -584,12 +621,5 @@
 
             doc.save("curriculo_" + nome.replace(/\s/g, '_') + ".pdf");
         });
-
-        function formatDate(dateString) {
-            if (!dateString) return "";
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR');
-        }
     </script>
 </body>
-</html>
