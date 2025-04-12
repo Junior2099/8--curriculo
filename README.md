@@ -1,9 +1,9 @@
 ## Faça seu currículo de forma simples e salve em PDF
 
-![image](https://github.com/user-attachments/assets/d41beddd-08cc-4a6f-9992-eff3f183475c)
+![image](https://github.com/user-attachments/assets/2e17f63c-e9de-4437-93f5-42ba39fc1919)
 
-![image](https://github.com/user-attachments/assets/901bd06f-4172-49a6-b404-16c0ec816289)
 
-![image](https://github.com/user-attachments/assets/bb8893db-f063-4b96-80d9-3da7938279c3)
+![image](https://github.com/user-attachments/assets/f0ad6f1d-e71e-4e9d-a4a1-d03742b0871a)
 
-![image](https://github.com/user-attachments/assets/f7616ab6-2705-497f-b7c0-a5b2bf84ad03)
+
+![image](https://github.com/user-attachments/assets/0610e9bf-4e5a-444f-a1b8-639d60743f7e)
