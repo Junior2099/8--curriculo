@@ -1143,7 +1143,7 @@
             doc.line(margin, doc.internal.pageSize.getHeight() - 20, pageWidth - margin, doc.internal.pageSize.getHeight() - 20);
             doc.setFontSize(8);
             doc.setTextColor(100, 100, 100);
-            doc.text("Currículo gerado em " + new Date().toLocaleDateString(), pageWidth / 2, doc.internal.pageSize.getHeight() - 15, { align: "center" });
+        
             
             doc.save("curriculo_" + nome.replace(/\s/g, '_') + ".pdf");
             showToast("PDF gerado com sucesso!", "success");
