@@ -1,4 +1,5 @@
 ## Faça seu currículo de forma simples e salve em PDF
+https://junior2099.github.io/8--curriculo/
 
 ![image](https://github.com/user-attachments/assets/2e17f63c-e9de-4437-93f5-42ba39fc1919)
 
